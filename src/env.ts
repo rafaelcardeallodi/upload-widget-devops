@@ -1,6 +1,8 @@
 import z from "zod"
 
 const envSchema = z.object({
+  PORT: z.coerce.number(),
+
   CLOUDFLARE_ACCESS_KEY_ID: z.string(),
   CLOUDFLARE_SECRET_ACCESS_KEY: z.string(),
   CLOUDFLARE_BUCKET: z.string(),
