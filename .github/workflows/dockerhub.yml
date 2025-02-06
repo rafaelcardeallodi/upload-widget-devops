@@ -38,17 +38,23 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set up Docker Buildx
+        id: setup-docker-buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Generate tag
         id: generate-tag
         run: |
           SHA=$(echo $GITHUB_SHA | head -c7)
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
-      - name: Build and push the image Test
+      - name: Build and export image
         uses: docker/build-push-action@v6
         with:
           context: .
           load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             ${{ vars.CONTAINER_REPOSITORY }}:test-${{ steps.generate-tag.outputs.sha }}
       
@@ -76,5 +82,6 @@ jobs:
         with:
           context: .
           push: true
+          cache-from: type=gha
           tags: |
             ${{ vars.CONTAINER_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
