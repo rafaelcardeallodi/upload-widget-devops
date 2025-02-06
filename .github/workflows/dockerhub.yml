@@ -25,6 +25,11 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10
+      
+      - name: Install dependencies
+        id: install-dependencies
+        run: |
+          pnpm install
 
       - name: Login to Docker Hub
         id: login-docker-hub
