@@ -41,3 +41,18 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      
+      # - name: Deploy to App Runner
+      #   id: deploy-to-app-runner
+      #   uses: awslabs/aws-app-runner-deploy@main
+      #   with: 
+      #     service: ${{ vars.APP_RUNNER_SERVICE_NAME }}
+      #     image: ${{ steps.build-push-image.outputs.ECR_REGISTRY }}/${{ steps.build-push-image.outputs.ECR_REPOSITORY }}:${{ steps.build-push-image.outputs.IMAGE_TAG }}
+      #     region: ${{ vars.AWS_REGION }}
+      #     access-role-arn: ${{ secrets.AWS_APP_RUNNER_ACCESS_ROLE_ARN }}
+      #     cpu: 1
+      #     memory: 2
+      #     port: 3333
+      
+      # - name: App Runner Check
+      #   run: echo "App running... ${{ steps.deploy-to-app-runner.outputs.service-url }}"
